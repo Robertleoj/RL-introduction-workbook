@@ -1,13 +1,9 @@
 # Cell
-from concurrent.futures import thread
 import numpy as np
-import random
 import matplotlib.pyplot as plt
 import multiprocessing
-from multiprocessing import Pool, Manager, Lock
-from itertools import repeat
-
-from utils import print_prog_bar, CompleteTaskCounter
+from multiprocessing import Pool
+from utils import CompleteTaskCounter
 from agents import EpsilonAgent
 from bandit import Bandits
 
@@ -81,7 +77,9 @@ def plot_rewards_and_percentage(scores, optimal):
 
     fig.suptitle(title)
 
-    plt.savefig(f"./figures/exmnts{NUM_EXPERIMENTS}_lr{LR}_{'nonstat' if NON_STATIONARY else 'stat'}_agnts{NUM_AGENTS}_actions{NUM_ACTIONS}.png")
+    plt.savefig(
+        f"./figures/exmnts{NUM_EXPERIMENTS}_lr{LR}_{'nonstat' if NON_STATIONARY else 'stat'}_agnts{NUM_AGENTS}_actions{NUM_ACTIONS}.png"
+    )
     plt.show()
 
 
@@ -105,7 +103,8 @@ def main():
 
     plot_rewards_and_percentage(scores, optimal)
 
-main()
+if __name__ == "__main__":
+    main()
         
 
 
