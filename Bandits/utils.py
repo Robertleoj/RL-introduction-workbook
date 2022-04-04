@@ -1,5 +1,6 @@
 
 from multiprocessing import Manager, Lock
+from itertools import repeat
 
 
 def prog_bar(curr, total):
@@ -18,6 +19,7 @@ def print_prog_bar(curr, total, start =1):
         print()
 
 
+
 class CompleteTaskCounter:
     def __init__(self, tasks):
         self.m = Manager()
@@ -25,16 +27,19 @@ class CompleteTaskCounter:
         self.lock = Lock()
         self.tasks = tasks
 
-    def increment(self):
+    def increment(self, val):
         with self.lock:
-            self.count.value += 1
+            val.value += 1
     
     def print_prog(self):
         print_prog_bar(self.count.value, self.tasks)
 
-    def incrprint(self):
-        self.increment()
+    def incrprint(self, val):
+        self.increment(val)
         self.print_prog()
 
     def reset(self, tasks):
         self.__init__(tasks)
+
+    def rep_gen(self):
+        return repeat(self.count, self.tasks)

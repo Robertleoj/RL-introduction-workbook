@@ -1,16 +1,17 @@
 # Cell
+from concurrent.futures import thread
 import numpy as np
 import random
 import matplotlib.pyplot as plt
 import multiprocessing
 from multiprocessing import Pool, Manager, Lock
+from itertools import repeat
 
 from utils import print_prog_bar, CompleteTaskCounter
 from agents import EpsilonAgent
 from bandit import Bandits
 
 NUM_THREADS = multiprocessing.cpu_count()
-
 
 # Lr can be a lambda of n, None for avg, or constant
 LR = 0.2
@@ -21,7 +22,8 @@ NON_STATIONARY = True
 NUM_ACTIONS = 1000
 NUM_EXPERIMENTS = 1000
 
-# thread_count_mutex = Lock()
+# has to be global
+thread_counter = None
 
 def experiment():
 
@@ -46,15 +48,11 @@ def experiment():
 
     return scores, optimal_actions
 
-def thread_experiment(counter):
+def thread_experiment(counterval):
     out =  experiment()
 
-
-    counter.incrprint()
-    # with thread_count_mutex:
-    #     # decrement the number left and 
-    #     completed.value += 1
-    #     print_prog_bar(completed.get(), NUM_EXPERIMENTS)
+    # see progress
+    thread_counter.incrprint(counterval)
 
     return out
 
@@ -63,15 +61,12 @@ def main():
     scores = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
     optimal = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
 
-    # m = Manager()
-
-    # num_threads_done = m.Value('i', 0)
+    global thread_counter
     thread_counter = CompleteTaskCounter(NUM_EXPERIMENTS)
 
     res = None
     with Pool(NUM_THREADS) as p:
-        # res = p.map(thread_experiment, (num_threads_done for _ in range(NUM_EXPERIMENTS)))
-        res = p.map(thread_experiment, (thread_counter for _ in range(NUM_EXPERIMENTS)))
+       res = p.map(thread_experiment, thread_counter.rep_gen())
 
     for i, el in enumerate(res):
         s, o = el
