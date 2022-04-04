@@ -4,9 +4,14 @@ import numpy as np
 import random
 from threading import Lock
 import matplotlib.pyplot as plt
+import concurrent.futures
+import multiprocessing
+from multiprocessing import Pool, Value, Manager
 
+NUM_THREADS = multiprocessing.cpu_count()
+NUM_LEFT = 0
 
-LR = 0.35
+LR = 0.2
 # LR = None
 # USE_LINSPACE_MEANS = True
 NUM_AGENTS = 5
@@ -17,8 +22,8 @@ USE_LINSPACE_MEANS = False
 
 NON_STATIONARY = True
 
-NUM_ACTIONS = 1000
-NUM_EXPERIMENTS = 100
+NUM_ACTIONS = 10000
+NUM_EXPERIMENTS = 3000
 
 mutex = Lock()
 
@@ -80,6 +85,20 @@ def experiment(num_bandits= 10, num_agents=5, epsilons=None, num_actions=10000, 
 
     return scores, optimal_actions
 
+def thread_experiment(args):
+    i = args[0]
+    num_left = args[1]
+    # print(f'Starting thread {i}')
+    out =  experiment(*(args[2:]))
+    # print(f'Finished thread {i}')
+
+    mutex.acquire()
+    num_left.value -= 1
+    print(f"{num_left.value} left")
+    mutex.release()
+
+    return out
+
 def main():
     num_agents = NUM_AGENTS
     num_bandits = NUM_BANDITS
@@ -97,12 +116,40 @@ def main():
                 list(range(num_experiments))
             ))
 
-    for i in range(num_experiments):
-        if(i % 10 == 0):
-            print(f"Iteration {i}/{num_experiments}")
-        s, o = experiment(num_bandits, num_agents, epsilons, num_actions, non_stationary)
+
+    m = Manager()
+    data = m.Value('i', num_experiments)
+    # m = Value('i', num_experiments)
+
+    args = map( lambda i:
+                # (i,
+                # scores,optimal,
+                (i, data, num_bandits, num_agents, epsilons, num_actions, non_stationary),
+                # (i, num_bandits, num_agents, epsilons, num_actions, non_stationary),
+                range(num_experiments)
+            )
+    res = None
+
+    with Pool(NUM_THREADS) as p:
+        res = p.map(thread_experiment, args)
+
+    for i, el in enumerate(res):
+        s, o = el
         scores[i,:,:] = s
         optimal[i,:,:] = o
+
+
+        
+
+    # for guy in guys:
+        # guy.result()
+    # executor.shutdown()
+
+        # if(i % 10 == 0):
+        #     print(f"Iteration {i}/{num_experiments}")
+        # s, o = experiment(num_bandits, num_agents, epsilons, num_actions, non_stationary)
+        # scores[i,:,:] = s
+        # optimal[i,:,:] = o
  
 
     score_means = scores.mean(0)
