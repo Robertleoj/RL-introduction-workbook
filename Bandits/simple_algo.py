@@ -5,11 +5,12 @@ import matplotlib.pyplot as plt
 import multiprocessing
 from multiprocessing import Pool, Manager, Lock
 
-from utils import print_prog_bar
+from utils import print_prog_bar, CompleteTaskCounter
 from agents import EpsilonAgent
 from bandit import Bandits
 
 NUM_THREADS = multiprocessing.cpu_count()
+
 
 # Lr can be a lambda of n, None for avg, or constant
 LR = 0.2
@@ -20,7 +21,7 @@ NON_STATIONARY = True
 NUM_ACTIONS = 1000
 NUM_EXPERIMENTS = 1000
 
-thread_count_mutex = Lock()
+# thread_count_mutex = Lock()
 
 def experiment():
 
@@ -45,14 +46,15 @@ def experiment():
 
     return scores, optimal_actions
 
-def thread_experiment(completed):
+def thread_experiment(counter):
     out =  experiment()
 
 
-    with thread_count_mutex:
-        # decrement the number left and 
-        completed.value += 1
-        print_prog_bar(completed.get(), NUM_EXPERIMENTS)
+    counter.incrprint()
+    # with thread_count_mutex:
+    #     # decrement the number left and 
+    #     completed.value += 1
+    #     print_prog_bar(completed.get(), NUM_EXPERIMENTS)
 
     return out
 
@@ -61,13 +63,15 @@ def main():
     scores = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
     optimal = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
 
-    m = Manager()
+    # m = Manager()
 
-    num_threads_done = m.Value('i', 0)
+    # num_threads_done = m.Value('i', 0)
+    thread_counter = CompleteTaskCounter(NUM_EXPERIMENTS)
 
     res = None
     with Pool(NUM_THREADS) as p:
-        res = p.map(thread_experiment, (num_threads_done for _ in range(NUM_EXPERIMENTS)))
+        # res = p.map(thread_experiment, (num_threads_done for _ in range(NUM_EXPERIMENTS)))
+        res = p.map(thread_experiment, (thread_counter for _ in range(NUM_EXPERIMENTS)))
 
     for i, el in enumerate(res):
         s, o = el
