@@ -1,78 +1,38 @@
 # Cell
-from bandit import Bandits
 import numpy as np
 import random
-from threading import Lock
 import matplotlib.pyplot as plt
-import concurrent.futures
 import multiprocessing
-from multiprocessing import Pool, Value, Manager
+from multiprocessing import Pool, Manager, Lock
+
+from utils import print_prog_bar
+from agents import EpsilonAgent
+from bandit import Bandits
 
 NUM_THREADS = multiprocessing.cpu_count()
-NUM_LEFT = 0
 
+# Lr can be a lambda of n, None for avg, or constant
 LR = 0.2
-# LR = None
-# USE_LINSPACE_MEANS = True
 NUM_AGENTS = 5
 NUM_BANDITS = 10
 EPSILONS = [0,0.001, 0.01, 0.05, 0.1]
-
-USE_LINSPACE_MEANS = False
-
 NON_STATIONARY = True
+NUM_ACTIONS = 1000
+NUM_EXPERIMENTS = 1000
 
-NUM_ACTIONS = 10000
-NUM_EXPERIMENTS = 3000
+thread_count_mutex = Lock()
 
-mutex = Lock()
+def experiment():
 
+    # Initialize with default means and stevs
+    bandit = Bandits(NUM_BANDITS, None, None, NON_STATIONARY)
 
-class Agent:
-    def __init__(self, num_bandits, epsilon, lr=None):
-        self.num_bandits = num_bandits
-        self.qs = np.zeros(num_bandits) + 2
-        self.ns = np.zeros(num_bandits)
-        self.epsilon = epsilon
-        if lr is None:
-            self.lr = lambda n: 1/n
-        else:
-            self.lr = lambda n: lr
+    agents = list(map(lambda x: EpsilonAgent(NUM_BANDITS, x,LR), EPSILONS))
 
-    def get_action(self):
+    scores = np.zeros((NUM_AGENTS, NUM_ACTIONS))
+    optimal_actions = np.zeros((NUM_AGENTS, NUM_ACTIONS)) # 0 or 1 - can then take avg
 
-        if np.random.rand() < self.epsilon:
-            return random.randint(0, self.num_bandits -1)
-
-        return np.argmax(self.qs)
-
-    def update(self, reward, action):
-        self.ns[action] += 1
-        # print(self.lr(self.ns[action]))
-        self.qs[action] += self.lr(self.ns[action]) * (reward - self.qs[action])
-
-def smooth(cumscores, num_samples):
-    new = cumscores.copy()
-    for score_ro in new:
-        for i in range(len(new)-1, num_samples, -1 ):
-            slice = score_ro[i - num_samples: i]
-            score_ro[i] = slice.mean()
-
-    return new
-
-
-def experiment(num_bandits= 10, num_agents=5, epsilons=None, num_actions=10000, non_stationary=False):
-    means =  np.linspace(0, 2, num_bandits) if USE_LINSPACE_MEANS else None
-    bandit = Bandits(num_bandits, means, None, non_stationary)
-    if epsilons is None:
-        epsilons = np.linspace(0, 0.15, num_agents)
-
-    agents = list(map(lambda x: Agent(num_bandits, x,LR), epsilons))
-
-    scores = np.zeros((num_agents, num_actions))
-    optimal_actions = np.zeros((num_agents, num_actions)) # 0 or 1 - can then take avg
-
-    for n in range(num_actions):
+    for n in range(NUM_ACTIONS):
         for i,agent in enumerate(agents):
             optimal_move = np.argmax(bandit.means)
             move = agent.get_action()
@@ -85,87 +45,49 @@ def experiment(num_bandits= 10, num_agents=5, epsilons=None, num_actions=10000, 
 
     return scores, optimal_actions
 
-def thread_experiment(args):
-    i = args[0]
-    num_left = args[1]
-    # print(f'Starting thread {i}')
-    out =  experiment(*(args[2:]))
-    # print(f'Finished thread {i}')
+def thread_experiment(completed):
+    out =  experiment()
 
-    mutex.acquire()
-    num_left.value -= 1
-    print(f"{num_left.value} left")
-    mutex.release()
+
+    with thread_count_mutex:
+        # decrement the number left and 
+        completed.value += 1
+        print_prog_bar(completed.get(), NUM_EXPERIMENTS)
 
     return out
 
 def main():
-    num_agents = NUM_AGENTS
-    num_bandits = NUM_BANDITS
-    epsilons = EPSILONS
-    num_actions = NUM_ACTIONS 
-    num_experiments = NUM_EXPERIMENTS
-    non_stationary = NON_STATIONARY
 
-    scores = np.zeros((num_experiments, num_agents, num_actions))
-    optimal = np.zeros((num_experiments, num_agents, num_actions))
-
-
-    stuff = list(map(
-                lambda i: (i, scores, optimal, num_bandits, num_agents, epsilons, num_actions, non_stationary),
-                list(range(num_experiments))
-            ))
-
+    scores = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
+    optimal = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
 
     m = Manager()
-    data = m.Value('i', num_experiments)
-    # m = Value('i', num_experiments)
 
-    args = map( lambda i:
-                # (i,
-                # scores,optimal,
-                (i, data, num_bandits, num_agents, epsilons, num_actions, non_stationary),
-                # (i, num_bandits, num_agents, epsilons, num_actions, non_stationary),
-                range(num_experiments)
-            )
+    num_threads_done = m.Value('i', 0)
+
     res = None
-
     with Pool(NUM_THREADS) as p:
-        res = p.map(thread_experiment, args)
+        res = p.map(thread_experiment, (num_threads_done for _ in range(NUM_EXPERIMENTS)))
 
     for i, el in enumerate(res):
         s, o = el
         scores[i,:,:] = s
         optimal[i,:,:] = o
 
-
-        
-
-    # for guy in guys:
-        # guy.result()
-    # executor.shutdown()
-
-        # if(i % 10 == 0):
-        #     print(f"Iteration {i}/{num_experiments}")
-        # s, o = experiment(num_bandits, num_agents, epsilons, num_actions, non_stationary)
-        # scores[i,:,:] = s
-        # optimal[i,:,:] = o
- 
-
     score_means = scores.mean(0)
     optimal_perc = optimal.mean(0)
 
     fig, ax = plt.subplots(1, 2, figsize=(20, 8))
-    for i in range(num_agents):
-        eps = epsilons[i]
+    for i in range(NUM_AGENTS):
+        eps = EPSILONS[i]
         ax[0].plot(score_means[i,:], label=f"{eps=}")
         ax[1].plot(optimal_perc[i,:], label=f"{eps=}")
     ax[1].set_ylim(0, 1)
     ax[0].set_title("Average score")
     ax[1].set_title("Average optimal %")
     ax[0].legend();ax[1].legend()
-    title = f"Experiments: {num_experiments}"
-    if non_stationary:
+    title = f"Experiments: {NUM_EXPERIMENTS}"
+    if NON_STATIONARY:
         title += "\nNon-stationary"
 
     if LR is not None:
