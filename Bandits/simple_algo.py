@@ -56,22 +56,7 @@ def thread_experiment(counterval):
 
     return out
 
-def main():
-
-    scores = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
-    optimal = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
-
-    global thread_counter
-    thread_counter = CompleteTaskCounter(NUM_EXPERIMENTS)
-
-    res = None
-    with Pool(NUM_THREADS) as p:
-       res = p.map(thread_experiment, thread_counter.rep_gen())
-
-    for i, el in enumerate(res):
-        s, o = el
-        scores[i,:,:] = s
-        optimal[i,:,:] = o
+def plot_rewards_and_percentage(scores, optimal):
 
     score_means = scores.mean(0)
     optimal_perc = optimal.mean(0)
@@ -99,6 +84,26 @@ def main():
     plt.savefig(f"./figures/exmnts{NUM_EXPERIMENTS}_lr{LR}_{'nonstat' if NON_STATIONARY else 'stat'}_agnts{NUM_AGENTS}_actions{NUM_ACTIONS}.png")
     plt.show()
 
+
+
+def main():
+
+    scores = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
+    optimal = np.zeros((NUM_EXPERIMENTS, NUM_AGENTS, NUM_ACTIONS))
+
+    global thread_counter
+    thread_counter = CompleteTaskCounter(NUM_EXPERIMENTS)
+
+    res = None
+    with Pool(NUM_THREADS) as p:
+       res = p.map(thread_experiment, thread_counter.rep_gen())
+
+    for i, el in enumerate(res):
+        s, o = el
+        scores[i,:,:] = s
+        optimal[i,:,:] = o
+
+    plot_rewards_and_percentage(scores, optimal)
 
 main()
         
