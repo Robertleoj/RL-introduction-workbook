@@ -9,8 +9,16 @@ import matplotlib.pyplot as plt
 LR = 0.35
 # LR = None
 # USE_LINSPACE_MEANS = True
+NUM_AGENTS = 5
+NUM_BANDITS = 10
+EPSILONS = [0,0.001, 0.01, 0.05, 0.1]
+
 USE_LINSPACE_MEANS = False
+
 NON_STATIONARY = True
+
+NUM_ACTIONS = 1000
+NUM_EXPERIMENTS = 100
 
 mutex = Lock()
 
@@ -73,11 +81,11 @@ def experiment(num_bandits= 10, num_agents=5, epsilons=None, num_actions=10000, 
     return scores, optimal_actions
 
 def main():
-    num_agents = 5
-    num_bandits = 10
-    epsilons = [0,0.001, 0.01, 0.05, 0.1]
-    num_actions = 2000
-    num_experiments = 300
+    num_agents = NUM_AGENTS
+    num_bandits = NUM_BANDITS
+    epsilons = EPSILONS
+    num_actions = NUM_ACTIONS 
+    num_experiments = NUM_EXPERIMENTS
     non_stationary = NON_STATIONARY
 
     scores = np.zeros((num_experiments, num_agents, num_actions))
@@ -100,7 +108,7 @@ def main():
     score_means = scores.mean(0)
     optimal_perc = optimal.mean(0)
 
-    fig, ax = plt.subplots(1, 2)
+    fig, ax = plt.subplots(1, 2, figsize=(20, 8))
     for i in range(num_agents):
         eps = epsilons[i]
         ax[0].plot(score_means[i,:], label=f"{eps=}")
@@ -109,7 +117,7 @@ def main():
     ax[0].set_title("Average score")
     ax[1].set_title("Average optimal %")
     ax[0].legend();ax[1].legend()
-    title = f"Experimnts: {num_experiments}"
+    title = f"Experiments: {num_experiments}"
     if non_stationary:
         title += "\nNon-stationary"
 
@@ -119,6 +127,8 @@ def main():
         title += "\nAverage Q"
 
     fig.suptitle(title)
+
+    plt.savefig(f"./figures/exmnts{NUM_EXPERIMENTS}_lr{LR}_{'nonstat' if NON_STATIONARY else 'stat'}_agnts{NUM_AGENTS}_actions{NUM_ACTIONS}.png")
     plt.show()
 
 
