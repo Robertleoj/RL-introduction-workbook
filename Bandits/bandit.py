@@ -15,12 +15,12 @@ class Bandits:
     def __init__(self, num_bandits, means=None, stdevs=None, walks=False):
         self.walks = walks
         if means is None:
-            self.means = (np.random.rand(num_bandits) * 5) + 5
+            self.means = (np.random.rand(num_bandits)) + 2
         else:
             self.means = means
 
         if stdevs is None:
-            self.stdevs = np.random.rand(num_bandits)
+            self.stdevs = np.random.rand(num_bandits) * 0.3
 
     def pull(self, band):
         mean, stdev = self.means[band], self.stdevs[band]
