@@ -206,6 +206,8 @@ class GradientAgent(AgentBase):
             else:
                 self.Hs[i] -= step_mult * self.policy[i]
 
+        self._compute_policy()
+
 
 
 

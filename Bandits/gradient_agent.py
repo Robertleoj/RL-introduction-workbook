@@ -10,7 +10,7 @@ NUM_THREADS = multiprocessing.cpu_count()
 
 # Experiment specification
 E_NUM_AGENTS = 5
-E_NUM_ACTIONS = 2000
+E_NUM_ACTIONS = 1000
 E_NUM_EXPERIMENTS = 2000
 
 # Agent specification
@@ -24,7 +24,6 @@ B_RAND_WALK_STD = 0.01
 B_MEANS_MEAN = 2
 B_MEANS_STD = 1
 B_BANDIT_STD = 0.2
-
 
 # has to be global
 thread_counter = None
