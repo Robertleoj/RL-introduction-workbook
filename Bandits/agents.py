@@ -1,6 +1,7 @@
 import numpy as np
 import random
 from typing import Union, Callable
+from math import log, sqrt
 
 
 class AgentBase:
@@ -11,33 +12,7 @@ class AgentBase:
     def update(self, reward, action):
         raise NotImplementedError()
 
-
-class EpsilonAgent:
-    '''
-    Agent that keeps a Q function, which it updates with
-        Q_{n+1} = Q_n + lr(n)(R_n - Q_n)
-
-    The user controls the learning rate lr(n)
-
-    '''
-    def __init__(self, 
-            num_bandits: int, 
-            epsilon: float, 
-            lr: Union[float, Callable[[int], float]] =None
-        ):
-        '''
-        Constructor.
-
-        The learning rate is either a callable that receives n as input, or
-        simply a floating point number for a constant learning rate.
-        '''
-
-        self.num_bandits = num_bandits
-        self.qs = np.zeros(num_bandits) + 2
-        self.ns = np.zeros(num_bandits)
-        self.epsilon = epsilon
-
-        # default is a mean agent
+    def _init_lr(self, lr):
         if lr is None:
             self.lr = lambda n: 1/n
 
@@ -48,6 +23,39 @@ class EpsilonAgent:
             self.lr = lambda n: lr
         else:
             self.lr = lr
+
+
+
+
+class EpsilonAgent(AgentBase):
+    '''
+    Agent that keeps a Q function, which it updates with
+        Q_{n+1} = Q_n + lr(n)(R_n - Q_n)
+
+    The user controls the learning rate lr(n)
+
+    This agent uses epsilon greedy
+    '''
+    def __init__(self, 
+            num_bandits: int, 
+            epsilon: float, 
+            initial_q: float,
+            lr: Union[float, Callable[[int], float]] =None
+        ):
+        '''
+        Constructor.
+
+        The learning rate is either a callable that receives n as input, or
+        simply a floating point number for a constant learning rate.
+        '''
+        super().__init__()
+        self.num_bandits = num_bandits
+        self.qs = np.zeros(num_bandits) + initial_q
+        self.ns = np.zeros(num_bandits)
+        self.epsilon = epsilon
+
+        # default is a mean agent
+        self._init_lr(lr)
 
     def get_action(self):
         """
@@ -66,3 +74,74 @@ class EpsilonAgent:
         """
         self.ns[action] += 1
         self.qs[action] += self.lr(self.ns[action]) * (reward - self.qs[action])
+
+
+
+class UCBAgent(AgentBase):
+    '''
+    Agent that keeps a Q function, which it updates with
+        Q_{n+1} = Q_n + lr(n)(R_n - Q_n)
+
+    The user controls the learning rate lr(n)
+
+    This agent uses the UCB selection method
+    '''
+    def __init__(self, 
+            num_bandits: int, 
+            initial_q: float,
+            c: float,
+            lr: Union[float, Callable[[int], float]] =None,
+        ):
+        '''
+        Constructor.
+
+        The learning rate is either a callable that receives n as input, or
+        simply a floating point number for a constant learning rate.
+
+        c is the hyperparameter for the UCB function
+        '''
+
+        super().__init__()
+
+        self.curr_step = 0
+        self.num_bandits = num_bandits
+        self.qs = np.zeros(num_bandits) + initial_q
+        self.ns = np.zeros(num_bandits)
+
+        if c is None:
+            raise ValueError("constant c cannot be none")
+
+        self.UCBc = c
+
+        self.__init_lr(lr)
+
+    def _UCB(self, action):
+        return self.qs[action] + self.UCBc * sqrt(log(self.curr_step) / self.ns[action])
+
+    def get_action(self):
+        """
+        There is only one state, so just get an action
+        """ 
+
+        max_ucb = -10000
+        best_action = None
+        for action in range(self.num_bandits):
+            if self.ns[action] == 0:
+                return action # untried actions considered optimal
+
+            ucb = self._UCB(action)
+            if ucb > max_ucb:
+                max_ucb = ucb
+                best_action = action
+
+        return best_action
+
+    def update(self, reward, action):
+        """
+        The agent needs to learn, so this must be called every move
+        """
+        self.curr_step += 1
+        self.ns[action] += 1
+        self.qs[action] += self.lr(self.ns[action]) * (reward - self.qs[action])
+
+

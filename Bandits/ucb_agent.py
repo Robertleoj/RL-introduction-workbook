@@ -16,8 +16,8 @@ E_NUM_EXPERIMENTS = 2000
 # Agent specification
 # Lr can be a lambda of n, None for avg, or constant
 A_LR = 0.2
-A_EPSILONS = [0, 0.01, 0.1]
 A_INITIAL_Q = 0
+A_UCB_Cs
 
 # Bandit specification
 B_NUM_BANDITS = 10
