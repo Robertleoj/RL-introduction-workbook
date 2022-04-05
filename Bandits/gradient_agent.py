@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import multiprocessing
 from multiprocessing import Pool
 from utils import CompleteTaskCounter
-from agents import UCBAgent
+from agents import GradientAgent
 from bandit import Bandits
 
 NUM_THREADS = multiprocessing.cpu_count()
@@ -15,9 +15,7 @@ E_NUM_EXPERIMENTS = 2000
 
 # Agent specification
 # Lr can be a lambda of n, None for avg, or constant
-A_LR = 0.2
-A_INITIAL_Q = 0
-A_UCB_CS = np.linspace(1/18, 4, E_NUM_AGENTS)
+A_LR = np.linspace(0, 0.1, E_NUM_AGENTS)
 
 # Bandit specification
 B_NUM_BANDITS = 10
@@ -44,13 +42,11 @@ def experiment():
     )
 
     agents = list(map(
-        lambda c: UCBAgent(
+        lambda lr: GradientAgent(
             B_NUM_BANDITS, 
-            A_INITIAL_Q ,
-            c,
-            A_LR
-        ), 
-        A_UCB_CS
+            lr
+        ),
+        A_LR
     ))
 
     scores = np.zeros((E_NUM_AGENTS, E_NUM_ACTIONS))
@@ -84,26 +80,24 @@ def plot_rewards_and_percentage(scores, optimal):
 
     fig, ax = plt.subplots(1, 2, figsize=(20, 8))
     for i in range(E_NUM_AGENTS):
-        c = A_UCB_CS[i]
-        ax[0].plot(score_means[i,:], label=f"{c=:.3f}")
-        ax[1].plot(optimal_perc[i,:], label=f"{c=:.3f}")
+        lr = A_LR[i]
+        ax[0].plot(score_means[i,:], label=f"{lr=:.3f}")
+        ax[1].plot(optimal_perc[i,:], label=f"{lr=:.3f}")
     ax[1].set_ylim(0, 1)
     ax[0].set_title("Average score")
     ax[1].set_title("Average optimal %")
     ax[0].legend();ax[1].legend()
-    title = f"Experiments: {E_NUM_EXPERIMENTS}: UCB Agent"
+    title = f"Experiments: {E_NUM_EXPERIMENTS}: Gradient Agent"
     if B_NON_STATIONARY:
         title += "\nNon-stationary"
 
     if A_LR is not None:
         title += f"\n{A_LR=}"
-    else:
-        title += "\nAverage Q"
 
     fig.suptitle(title)
 
     plt.savefig(
-        f"./figures/UCBAGENT_exmnts{E_NUM_EXPERIMENTS}_lr{A_LR}_{'nonstat' if B_NON_STATIONARY else 'stat'}_agnts{E_NUM_AGENTS}_actions{E_NUM_ACTIONS}_initq{A_INITIAL_Q}.png"
+        f"./figures/GRADIENT_exmnts{E_NUM_EXPERIMENTS}_{'nonstat' if B_NON_STATIONARY else 'stat'}_agnts{E_NUM_AGENTS}_actions{E_NUM_ACTIONS}.png"
     )
     plt.show()
 
