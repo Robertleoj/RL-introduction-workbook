@@ -1,3 +1,8 @@
+$$
+\gdef\expt#1#2{\mathbb{E}_{#1}\left[#2\right]}
+\gdef\vect#1{\boldsymbol{#1}}
+$$
+
 
 # Exercise 3.1
 
@@ -38,7 +43,7 @@ The agent should fly the rocket so that it heads forward, with minimum turbulanc
 
 ## Programming
 
-We could face a reinforcement learner create programs for tasks. In fact, this has already been done. 
+We could face a reinforcement learner create programs for tasks, given a description in some form. In fact, this has already been done. 
 
 The agent might receive as a state the programming language it should use, if it should not decide that itself. Of course it should want a description of the program. 
 
@@ -120,24 +125,34 @@ The expected return is always one, as the agent always escapes the maze eventual
 To communicate to the agent that it should navigate the maze efficiently, we should penalize it for every move it makes, so that it wants to escape the maze quickly. We only instructed it to *eventually* escape the maze, no matter how long it takes. 
 
 # Exercise 3.8
+
 $$
-G_5 = 0\\
-G_4 = R_5 + \gamma G_5 = 2 + 0.5 \cdot 0 = 2\\
-G_3 = R_4 + \gamma G_4 = 3 + 0.5 \cdot 2 = 4\\
-G_2 = R_3 + \gamma G_3 = 6 + 0.5 \cdot 4 = 8\\
-G_1 = R_2 + \gamma G_2 = 2 + 0.5 \cdot 8 = 6\\
-G_0 = R_1 + \gamma G_1 = -1 + 0.5 \cdot 6 = 2
+\begin{align}
+&G_5 = 0\\
+&G_4 = R_5 + \gamma G_5 = 2 + 0.5 \cdot 0 = 2\\
+&G_3 = R_4 + \gamma G_4 = 3 + 0.5 \cdot 2 = 4\\
+&G_2 = R_3 + \gamma G_3 = 6 + 0.5 \cdot 4 = 8\\
+&G_1 = R_2 + \gamma G_2 = 2 + 0.5 \cdot 8 = 6\\
+&G_0 = R_1 + \gamma G_1 = -1 + 0.5 \cdot 6 = 2
+\end{align}
 $$
 
 # Exercise 3.9
 We know that
 $$
-G_1 = \sum_{i=0}^{\infty} 7\gamma^i = 7\sum_{i = 0}^{\infty}\gamma^i\\
-= 7 \frac{1}{1 - \gamma} = 7\frac{1}{0.1} = 7 \cdot 10 = 70
+\begin{align}
+G_1 &= \sum_{i=0}^{\infty} 7\gamma^i = 7\sum_{i = 0}^{\infty}\gamma^i\\
+&= 7 \frac{1}{1 - \gamma} = 7\frac{1}{0.1}\\
+&= 7 \cdot 10 = 70
+\end{align}
 $$
 And 
 $$
-G_0 = 2 + \gamma G_1 = 2 + 0.9 \cdot 70 = 2 + 7 = 65
+\begin{align}
+G_0 &= 2 + \gamma G_1 \\
+&= 2 + 0.9 \cdot 70\\
+&= 2 + 7 = 65
+\end{align}
 $$
 
 # Exercise 3.10
@@ -147,14 +162,46 @@ $$
 $$
 Then 
 $$
-\Gamma - \gamma \Gamma = \sum_{k = 0}^{\infty}\gamma^k -  \sum_{k = 1}^{\infty}\gamma^k = \gamma^0 = 1
-$$
-And hence
-$$
-(1 - \gamma) \Gamma = 1\\
-\implies \Gamma = \frac{1}{1 - \gamma}
+\begin{align}
+\Gamma - \gamma \Gamma &= \sum_{k = 0}^{\infty}\gamma^k -  \sum_{k = 1}^{\infty}\gamma^k\\
+&= \gamma^0 = 1
+\end{align}
 $$
 
+And hence
+$$
+\begin{align}
+&(1 - \gamma) \Gamma = 1\\
+&\implies \Gamma = \frac{1}{1 - \gamma}
+\end{align}
+$$
+
+# Exercise 3.11
+If $A$ is the set of actions, and $R$ the set of possible rewards, it is
+$$
+E(R_{t + 1}) = \sum_{a \in A}\left[\pi(a\mid S_t)   \sum_{r \in R} \left(r \sum_{s' \in S} p(s', r \mid S_t, a)\right)\right]
+$$
+
+# Exercise 3.12
+We want to give an equation for $v_\pi$ in terms of $q_\pi$ and $\pi$. This can be done by taking the action-value function, and averaging out the action, that is
+
+$$
+v_{\pi}(s) = \mathbb{E}\left[q_\pi(s, a)\right] = \sum_{a \in A}\pi(a|s) q_\pi(s, a)
+$$
+
+# Exercise 3.13
+We want to give an equation for $q_\pi$ in terms of $v_\pi$ and $p(s', r\mid s, a) $.
+
+We define $E_{\vect{x}}[f(\vect{x})]$ as the expectation of $f$ with respect to $\boldsymbol{x}$.
+
+
+With that definition, we see that 
+$$
+\begin{align}
+q_\pi(s, a) &= \expt{s', r}{ r +  \gamma v(s')}\\
+            &= \sum_{s' \in S}\pi(a\mid s)\sum_{r \in R}p(s', r\mid s, a)(r + \gamma v(s'))
+\end{align}
+$$
 
 
 
