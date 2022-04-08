@@ -1,0 +1,370 @@
+\documentclass[a4paper,11pt,reqno]{amsart}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{esvect}
+\usepackage{scalerel}
+\usepackage{gensymb}
+\geometry{left=2.5cm, right=2.5cm, bottom=3cm}
+% \pagenumbering{roman}
+
+\parskip 1ex
+\parindent 0 pt
+
+\newcounter{temp}
+\newcounter{prob_counter}
+\newcounter{sprob_counter}
+
+\newenvironment{problem}
+{\begin{list}{{\bf \arabic{prob_counter}}}{
+      \usecounter{prob_counter}
+      \addtolength{\labelsep}{.6ex}
+      \addtolength{\itemsep}{4.3ex}
+      \setlength{\leftmargin}{1.4em}}
+      \setcounter{prob_counter}{\value{temp}}
+}
+{\setcounter{temp}{\value{prob_counter}}
+  \end{list}
+}
+
+\newenvironment{subprob}
+{
+  \begin{list}{{\bf \alph{sprob_counter}}}{
+      \usecounter{sprob_counter}
+      \addtolength{\labelsep}{.6ex}
+      \addtolength{\itemsep}{.5ex}
+      \setlength{\leftmargin}{1.7em}}
+}
+{\end{list}}
+
+\newenvironment{solution}{\textbf{Solution.}}{\qed}
+
+\newcommand{\rubrik}[1]{\bigskip \begin{center}{\bf #1}\end{center} \medskip}
+
+
+
+\usepackage{xcolor}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\lstset{language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{keywords},
+    commentstyle=\color{comments},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    identifierstyle=\color{green},
+    %procnamekeys={def,class}
+    numbers=left,
+    xleftmargin=2em,
+    frame=single,
+    framexleftmargin=2.5em
+}
+
+
+\lstset{literate=%
+  *{0}{{{\color{green}0}}}1
+    {1}{{{\color{green}1}}}1
+    {2}{{{\color{green}2}}}1
+    {3}{{{\color{green}3}}}1
+    {4}{{{\color{green}4}}}1
+    {5}{{{\color{green}5}}}1
+    {6}{{{\color{green}6}}}1
+    {7}{{{\color{green}7}}}1
+    {8}{{{\color{green}8}}}1
+    {9}{{{\color{green}9}}}1
+}
+
+
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+
+% \newcommand{\chr}{\chi}
+\newcommand{\compl}[1]{\overline{#1}}
+\newcommand{\so}{\Rightarrow}
+\newcommand{\blocc}{\mathcal{B}}
+\newcommand{\val}{\operatorname{val}}
+\newcommand{\set}[1]{{#1}}
+\newcommand{\sd}{\scaleobj{0.8}{\triangle}}
+
+
+\DeclareMathOperator*{\Exp}{\mathbb{E}}
+
+\begin{document}
+
+\pagestyle{empty}
+\thispagestyle{empty}
+
+{\small{\sc\noindent
+        Róbert Leó Jónsson ({\tt robertt20@ru.is}))
+}}
+
+\rubrik{Chapter 3}
+
+\section*{Exercise 3.1}
+\begin{quote}
+Devise three example tasks of your own that fit into the MDP framework, identifying for each its states, actions, and rewards. Make the three examples as different from each other as possible. The framework is abstract and flexible and can be applied in many different ways. Stretch its limits in some way in at least one of your examples.  
+\end{quote}
+
+\subsection*{Controlling a rocket}
+A reinforcement learning agent is to control a rocket that should fly into orbit. 
+
+The agent will want to know all about the forces acting on the rocket, and the current position, velocity, acceleration, heading, and rotation forces of the rocket. It might need to know the fuel level, and the temperature of the engine in order to complete its task.
+
+Finally, most rockets have discrete stages; the first transition might perhaps be to discard the level 1 boosters. 
+
+Thus the state might be composed of
+\begin{itemize}
+    \item   Position
+    \item   Velocity
+    \item   Acceleration
+    \item   Fuel status
+    \item   Engine temperature
+    \item   Heading
+    \item   Rotation
+    \item   The phase of the launch
+\end{itemize}
+
+The agent should control the engine and controls of the rocket. Maybe the agent also controls when the rocket releases its boosters. The agent might also want to warn the humans that something is wrong, so it might want to send a distress signal.
+
+Thus the actions could be
+\begin{itemize}
+    \item   Accelerate engine
+    \item   Turn (or something to control the heading of the engine)
+    \item   Transition into next phase of launch
+    \item   Send distress signal
+\end{itemize}
+
+The agent should fly the rocket so that it heads forward, with minimum turbulance, with fuel efficiency, and a nice ascent into orbit. Its reward might be some weighted combination of these factors. 
+
+\subsection*{Programming}
+
+We could face a reinforcement learner create programs for tasks, given a description in some form. In fact, this has already been done. 
+
+The agent might receive as a state the programming language it should use, if it should not decide that itself. Of course it should want a description of the program. 
+
+An important thing to know when programming is the current state of the code, so the agent should receive that as well. 
+
+Now, the agent might want to run the program to see if it produces the desired output. So that might be a possible part of the state. 
+
+For the actions, the agent might choose to input a character to the file, delete text, or any other aciton that modifies the text. The agent might also decide to run to the program to see the results. Finally, when the agent is happy, it should be able to submit its code. 
+
+\subsection*{Cook food}
+We might produce a chef agent. It might control some kind of robot that has access to all necessary appliances in a kitchen, and the ingredient, and the agent's goal is to produce the requested dish. 
+
+The states might consist of visual input, temperature of stoves and ovents, and the sensorymotor data from the robot's actuators. 
+
+The agent needs to control the robot, so the actions should include all the possible controls of the robot. Also, for better automation, stove and oven controls might be actions seperate from the robot's movement. 
+
+The rewards should be negative for breaking stuff, or otherwise reaking havoc in the kitchen, and there should be positive rewards for creating the requested dish, where the size of the reward is a funciton of the dish's quality.
+
+\section*{Exercise 3.2}
+\begin{quote}
+     Is the MDP framework adequate to usefully represent all goal-directed learning tasks? Can you think of any clear exceptions?
+\end{quote}
+
+I cannot find any counterexamples.
+
+\section*{Exercise 3.3}
+
+The actions that the agent can perform instantaneously at any time step should be the defined actions for the agent. The choice of where to drive should not be an output for a driving agent, as that is not how you drive a car, in the immediate sense. 
+
+The choice of where to drive should be something that the agent decides makes plans on how to execute, and then uses its actuators/available actions to perform. 
+
+A driving agent that would output a coordinate of where to drive would not be a driving agent, rather a guidance agent. 
+
+Of course, a driving agent could have some other agent that controls where it should drive, and the driving agent implements that plan, but that would be a seperate agent, distinct form the driving agent. 
+
+Now, as stated, the actions should be something that can be outputted, and executed immediately. If the agent outputs a rotational acceleration of the steering wheel, or simply its goal angle should be something that could be immediately implemented by some microcontroller or other machinery. 
+
+Therefore that is an acceptable action. 
+
+Now, if there is some automatic system that can better automate a task than the agent can, say, a good brake system in a car that prevents skidding, the agent should not directly control the force of the brake pads, but should simply gain access to the brake pedal, and let the brake system do the rest.
+
+\section*{Exercise 3.4}
+
+\begin{table}[H]
+    \centering
+    \caption{The Table}
+
+    \begin{tabular}{l|l|l|r|r}
+        \(s\)  & \(a\)  & \(s'\)  & \(r\)  & \(p(s', r \mid s, a )\)  \\
+        \hline
+         high&  search& high & 1 & 0.4  \\
+         high&  search& high & 0 & 0.6 \\
+         high&  search& low  & 1 & 0.4 \\
+         high&  search& low  & 0 & 0.6  \\
+         high&  wait  & high & 1 & 0.1 \\
+         high&  wait  & high & 0 & 0.9 \\
+         high&  wait  & low  & 1 & 0.1 \\
+         high&  wait  & low  & 0 & 0.9  \\
+         low &  search& low  & 1 & 0.2 \\
+         low &  search& low  & 0 & 0.8 \\
+         low &  wait  & low  & 1 & 0 \\
+         low &  wait  & low  & 0 & 1 \\
+         low &  recharge& low & 1 & 0 \\
+         low &  recharge& low & 0 & 1 
+    \end{tabular}
+\end{table}
+
+\section*{Exercise 3.5}
+The formula simply becomes
+\[
+    p(s', r \mid s, a) = 1, \text{ for all } s \in \mathcal{S} \setminus \mathcal{S}^{+}
+\]
+
+\section*{Exercise 3.6}
+The return would not just be related to $-\gamma^{K}$, it would equal $-\gamma^{K}$, where $K$ is the number of steps until failure.
+
+In the continuing task formulation, the agent might also take into account the next failure, in the next reset, in a given state. 
+
+\section*{Exercise 3.7}
+The expected return is always one, as the agent always escapes the maze eventually, and when it does, there is no discrimination between states. All states get an expected return of one. 
+
+To communicate to the agent that it should navigate the maze efficiently, we should penalize it for every move it makes, so that it wants to escape the maze quickly. We only instructed it to *eventually* escape the maze, no matter how long it takes. 
+
+\section*{Exercise 3.8}
+\begin{align}
+    &G_5=0\\
+    &G_4=R_5 + \gamma G_5 = 2 + 0.5 \cdot 0 = 2\\
+    &G_3=R_4 + \gamma G_4 = 3 + 0.5 \cdot 2 = 4\\
+    &G_2=R_3+\gamma G_3= 6 + 0.5 \cdot 4 = 8\\
+    &G_1=R_2+\gamma G_2=2 + 0.5 \cdot 8 = 6\\
+    &G_0=R_1 + \gamma G_1=-1 + 0.5 \cdot 6 = 2
+\end{align}
+
+\section*{Exercise_3.9}
+We know that 
+\begin{align}
+    G_1 &=\sum_{i=0}^{\infty} 7\gamma ^{i}=7 \sum_{i =0}^{\infty} \gamma ^{i}\\
+        &= 7 \frac{1}{1 - \gamma} = 7 \frac{1}{0.1}\\
+        &= 7 \cdot 10 = 70
+\end{align}
+So 
+\begin{align}
+    G_0 &=2 + \gamma G_1\\
+    &= 2 + 0.9 \cdot 70\\
+    &= 2 + 7 = 65
+\end{align}
+
+\section*{Exercise 3.10}
+Let
+\[
+    \Gamma = \sum_{k=0}^{\infty} \gamma ^{k}
+\]
+Then
+\begin{align}
+    \Gamma - \gamma \Gamma &= \sum_{k =0}^{\infty} \gamma ^{k} - \sum_{k=1}^{\infty} \gamma ^{k}\\
+            &= \gamma ^{0}=1
+\end{align}
+
+And hence
+\begin{align}
+    &(1 - \gamma ) \Gamma =1\\
+    & \implies \Gamma = \frac{1}{1 - \gamma }
+\end{align}
+
+\section*{Exercise 3.11}
+If $A$ is the set of actions, and $R$ the set of possible rewards, it is
+\[
+    \mathbb{E}(R _{t +1}) = \sum_{a \in A} \left[ \pi (a \mid S_t) 
+        \sum_{r \in R} \left( r \sum_{s' \in S} p(s',r \mid S_t ,a) \right) 
+    \right] 
+\]
+
+\section*{Exercise 3.12}
+We want to give an equation for $v _{\pi }$ in terms of $q _{\pi }$ and $\pi $. This can be done by taking the action-value function, and averaging out the action, that is
+\[
+    v _{\pi }(s) = \mathbb{E} \left[ q _{\pi }(s, a) \right] = \sum_{a \in A} \pi (a \mid s) q _{\pi }(s, a)
+
+\]
+
+\section*{Exercise 3.13}
+We want to give an equation for $q _{\pi }$ in terms of $v _{\pi }$ and $p(s',r \mid s,a)$. We define $\mathbb{E} _{x} \left[ f(x) \right] $ as the expectation of $f$ with respect to $x$. With that definition, we see that
+
+\begin{align}
+    q _{\pi }&= \mathbb{E} _{s', r} \left[ r + \gamma v(s') \right] \\
+    &= \sum_{s' \in S} \pi (a \mid s) \sum_{r \in R} p(s', r \mid s, a)(r + \gamma v(s'))
+\end{align}
+
+\section*{Exercise 3.14}
+
+We represent the state $s$ as its coordinate $s = (x, y)$. 
+
+Thus,
+\begin{align}
+    v _{\pi }(2, 2) &= 0.7\\
+    v _{\pi }(2, 1) &= 2.5\\
+    v _{\pi} (1, 2) &= 0.7 \\
+    v _{\pi }(3,2) &= 0.4\\
+    v _{\pi }(2, 3) &= -0.4
+\end{align}
+
+Now, the Bellman equation for the value function $v _{\pi }$ is
+\[
+    v _{\pi }(s) = \sum_{a} \pi (a \mid a) \sum_{s', r} p(s', r \mid s, a) \left[ r + \gamma v _{\pi }(s') \right] 
+\]
+
+We how that the Bellman equation for the value function holds for $v _{\pi }(2, 2)$ with respect to its neighbors. The set of actions is $A=(UP,  RIGHT, DOWN, LEFT)$. However, all teh actions from the state $s=(2, 2)$ result in a reward of $0$. 
+
+Also, the environment is deterministic. We can now perform the calculation:
+
+\begin{align}
+    v _{\pi }(2, 2) &= \sum_{a} \pi(a \mid  s) \sum_{s', r} p(s', r \mid s, a) \left[ r + \gamma  v _{\pi }(s') \right] \\
+    &= \frac{1}{4}(\gamma v _{\pi }(2, 1) + \gamma v _{\pi }(1, 2) + \gamma v _{\pi }(1, 2) + \gamma v _{\pi }(3, 2) + \gamma  v _{\pi } (2, 3))\\
+    &= \frac{0.9}{4}(2.5 + 0.7 + 0.4 + (-0.4))\\
+    &= 0.72 \approx 0.7
+\end{align}
+
+\section*{}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
