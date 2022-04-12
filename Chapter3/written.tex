@@ -246,7 +246,7 @@ To communicate to the agent that it should navigate the maze efficiently, we sho
     &G_0=R_1 + \gamma G_1=-1 + 0.5 \cdot 6 = 2
 \end{align}
 
-\section*{Exercise_3.9}
+\section*{Exercise 3.9}
 We know that 
 \begin{align}
     G_1 &=\sum_{i=0}^{\infty} 7\gamma ^{i}=7 \sum_{i =0}^{\infty} \gamma ^{i}\\
@@ -289,7 +289,6 @@ If $A$ is the set of actions, and $R$ the set of possible rewards, it is
 We want to give an equation for $v _{\pi }$ in terms of $q _{\pi }$ and $\pi $. This can be done by taking the action-value function, and averaging out the action, that is
 \[
     v _{\pi }(s) = \mathbb{E} \left[ q _{\pi }(s, a) \right] = \sum_{a \in A} \pi (a \mid s) q _{\pi }(s, a)
-
 \]
 
 \section*{Exercise 3.13}
@@ -329,11 +328,68 @@ Also, the environment is deterministic. We can now perform the calculation:
     &= 0.72 \approx 0.7
 \end{align}
 
-\section*{}
+\section*{Exercise 3.15}
+If we add a constant $c$ to all the rewards, each reward becomes $R_t + c$, so the return becomes
+\begin{align}
+    G'_t &= (R_{t + 1} + c) + (R_{t + 2} + c) + \cdots \\
+        &= \sum_{k=0}^{\infty} \gamma ^{k}(R_{t + k + 1}  + c) \\
+        &= \sum_{k=0}^{\infty} \gamma ^{k}c + \sum_{k=0}^{\infty} \gamma ^{k}R_{t + k + 1} \\
+        &= \frac{c}{1 - \gamma} + \sum_{k=0}^{\infty} \gamma ^{k}R_{t + k + 1}   \\
+        &= G_{t} + \frac{c}{1 - \gamma } 
+\end{align}
+So the value $v'_\pi $ becomes 
+\begin{align}
+    v'_\pi (s) &= \mathbb{E}\left[ G'_t  \mid S_t = s \right] \\
+&= \mathbb{E}\left[ G_t + \frac{c}{1 - \gamma } \mid S_t =s \right]  \\
+&= \mathbb{E}\left[ G_t \mid S_t = s \right] + \mathbb{E}\left[ \frac{c}{1 - \gamma } \mid S_t = s \right]   \\
+&= \mathbb{E}\left[ G_t \mid S_t = s \right] + \frac{c}{1 - \gamma }\\
+&= v_{\pi }(s) + \frac{c}{1 - \gamma } \\
+&= v_{\pi }(s) + v_c 
+\end{align}
+where the constant added is $v_c =\frac{c}{ 1-  \gamma }$
+
+\section*{Exercise 3.16}
+Lets say the task is episodic, and some episode lasts $k$ steps. Then, at time $t$, the return is
+
+\begin{align}
+    G'_t &= \sum_{i=0}^{k - t - 1} \gamma^{i} (R_{t + i + 1} + c)\\
+    &= \sum_{i=0}^{k - t - 1} \gamma ^{i}c  + \sum_{i=0}^{k - t - 1} R_{t + i + 1} \\
+    &= \frac{c(\gamma ^{k - t - 1} - 1)}{\gamma  - 1} + \sum_{i=0}^{k - t- 1} R_{t + i + 1} \\
+\end{align}
+So here we see that the return depends on the number of steps remaining until the end of the episode. 
+
+The feature of the continuing tasks that caused there to be a constant added to the value (or return), is that the sum was infinite. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}
-
 
 
 
