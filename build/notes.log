@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.8.17)  12 APR 2022 23:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.8.17)  13 APR 2022 00:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -802,29 +802,32 @@ Package gensymb Warning: Not defining \micro.
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 103.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 185.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 185.
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \vbox (badness 3417) has occurred while \output is active []
+
+ [2] [3] [4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 235.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 235.
  (build/notes.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 185.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 185.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 235.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 235.
 Package rerunfilecheck Info: File `notes.out' has not changed.
-(rerunfilecheck)             Checksum: 080A470E5D7603B51C05CF431346AC14;188.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 185.
+(rerunfilecheck)             Checksum: 0D357821799886ECCB465CCD2213DD74;267.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 235.
  ) 
 Here is how much of TeX's memory you used:
- 23333 strings out of 483183
- 424637 string characters out of 5966292
- 906123 words of memory out of 5000000
- 37705 multiletter control sequences out of 15000+600000
- 545032 words of font info for 64 fonts, out of 8000000 for 9000
+ 23364 strings out of 483183
+ 425010 string characters out of 5966292
+ 910122 words of memory out of 5000000
+ 37708 multiletter control sequences out of 15000+600000
+ 546562 words of font info for 66 fonts, out of 8000000 for 9000
  175 hyphenation exceptions out of 8191
  60i,13n,60p,936b,387s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on build/notes.pdf (2 pages, 114597 bytes).
+Output written on build/notes.pdf (4 pages, 123786 bytes).
 PDF statistics:
- 248 PDF objects out of 1000 (max. 8388607)
- 107 compressed objects within 2 object streams
- 29 named destinations out of 1000 (max. 500000)
- 37 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 296 PDF objects out of 1000 (max. 8388607)
+ 147 compressed objects within 2 object streams
+ 55 named destinations out of 1000 (max. 500000)
+ 45 words of extra memory for PDF output out of 10000 (max. 10000000)
 

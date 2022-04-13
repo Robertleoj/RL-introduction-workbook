@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1649807296 "notes.tex" "build/notes.pdf" "notes" 1649807296
+["pdflatex"] 1649811332 "notes.tex" "build/notes.pdf" "notes" 1649811332
   "/etc/texmf/web2c/texmf.cnf" 1629162636 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk" 1649434209 28952 8fe6654355c283b59680a2b3c97aced4 ""
   "/home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk" 1649434210 25076 a1022144d7ac9d325a3141825bb822a5 ""
@@ -11,6 +11,8 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecbx1095.tfm" 1136768653 3584 21b378cca2e40816b0e6d74a4dc98f04 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/eccc1000.tfm" 1136768653 3072 0e825b3b77feef5bf88d50fba1209c90 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/eccc1095.tfm" 1136768653 3072 1b1df026a15993ee98d265b49cf8d5f2 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm0600.tfm" 1136768653 3584 291a5713401683441e0a8c8f4417b17b ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm0800.tfm" 1136768653 3584 49064b465390a8e316a3c8417a050403 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm0900.tfm" 1136768653 3584 d3d8ac8b25ca19c0a40b86a5db1e8ccc ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm1000.tfm" 1136768653 3584 adb004a0c8e7c46ee66cad73671f37b4 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm" 1136768653 3584 929cdff2b7a8c11bd4d49fd68cb0ae70 ""
@@ -203,11 +205,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1581979058 38841 ce3692aa899bb693b90b87eaa5d4d84e ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1629163055 4429294 7e37af41c846069ce41e50f05b527231 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1629163059 4791332 7e81959fbc7a6a54ec2d7675877cb9d1 ""
-  "build/notes.aux" 1649807296 1260 913ddca44d98c107456d36a5f066940c "pdflatex"
-  "build/notes.out" 1649807296 188 080a470e5d7603b51c05cf431346ac14 "pdflatex"
-  "notes.tex" 1649807294 6247 6cec53954e89610974bf34ccd8c01197 ""
+  "build/notes.aux" 1649811332 1404 66c9c70a8ba1b927f9a913514ca8103a "pdflatex"
+  "build/notes.out" 1649811332 267 0d357821799886eccb465ccd2213dd74 "pdflatex"
+  "notes.tex" 1649811332 8683 3a9caea37a8d7547ed220a2ae9aaba6e ""
   (generated)
   "build/notes.pdf"
   "build/notes.out"
-  "build/notes.aux"
   "build/notes.log"
+  "build/notes.aux"

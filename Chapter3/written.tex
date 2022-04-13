@@ -360,6 +360,191 @@ So here we see that the return depends on the number of steps remaining until th
 
 The feature of the continuing tasks that caused there to be a constant added to the value (or return), is that the sum was infinite. 
 
+\section*{Exercise 3.17}
+We derive the Bellman equation for the action-value function:
+\begin{align}
+q(s, a) &= \mathbb{E}_\pi \left[ G_t \mid S_t =s, A_t = a \right]  \\
+&= E_\pi [R_{t+1} + \gamma G_{t+1} \mid S_t = s, A_t = a \\
+&= \sum_{s'} \sum_{r} p(s', r\mid s, a)(r + \gamma \mathbb{E}_\pi \left[ G_{t+1} \mid S_{t+1} = s' \right]  \\
+&= \sum_{s', r}p(s', r \mid s, a)(r + \gamma \sum_{a'}\pi(a' \mid s') \mathbb{E}\left[ G_{t+1}\mid s', a' \right])   \\
+&= \sum_{s', r}p(s', r \mid s, a)\Big(r + \gamma \sum_{a'} \pi (a'\mid s) q(a', s')\Big)  \\
+\end{align}
+
+\section*{Exercise 3.18}
+This is simply 
+\begin{align}
+    v_\pi(s) &= \mathbb{E}_\pi \left[ q_{\pi }(a, s) \mid S_t = s \right] \\
+        &= \sum_{a} \pi (a\mid s) q_{\pi }(a,s) \\
+\end{align}
+
+\section*{Exercise 3.19}
+This is
+\begin{align}
+    q_\pi (s, a) &= \mathbb{E}\left[ R_{t+1} +\gamma  v_{\pi }(S_{t+1}) \mid S_t = s, A_t = a \right] \\
+    &= \sum_{s', r}p(s', r \mid s, a)(r + \gamma v_{\pi }(s'))  \\
+\end{align}
+
+\section*{Exercise 3.20}
+It is the same as the figure of $q_{*}(s, driver)$, but the whole green area has value $-1$. 
+
+
+\section*{Exercise 3.21}
+The same as $v_{putt}$. 
+
+\section*{Exercise 3.22}
+We consider the top state to be the only state, as otherwise the definition of the optimal policy would not work. This is because the optimal policy must satisfy $\pi _{*}(s) \ge \pi (s)$ for all other policies $\pi $, which would not be the case if this was the given MDP. 
+
+f $\gamma =0$, then $\pi _{left}$ is the optimal policy, as the return in the top state is then $+1$. If $\gamma =0.9$, however, then the values of the top state for the two policies are
+\begin{align}
+    v_{\pi _{right}}(s) &= \sum_{i=0}^{\infty} 0.9^{2i + 1} \cdot 2\\
+            &=\sum_{i=0}^{\infty} 0.81^{i} \cdot 0.9 \cdot 2 \\
+            &= 1.8 \sum_{i=1}^{\infty} 0.81^{i} \\
+            &= 1.8(\frac{1}{1 - 0.81} - 0.81)  = 8.19 \\
+    v_{\pi _{left}}(s) &= \sum_{i=0}^{\infty} 0.9^{2i} \cdot 1\\
+        &= \sum_{i=0}^{\infty} 0.81^{i} \\
+        &= \frac{1}{1 - 0.81} = 5.26 \\
+\end{align}
+So in that case $\pi _{right}$ is better. For $\gamma =0.5$, we have
+\begin{align}
+    v_{\pi _{right}}(s) &= \sum_{i=0}^{\infty} 0.5^{2i + 1} \cdot 2\\
+            &=\sum_{i=0}^{\infty} 0.25^{i} \cdot 0.5 \cdot 2 \\
+            &= \sum_{i=1}^{\infty} 0.25^{i} \\
+            &= \frac{1}{1 - 0.25 } - 0.25= 1.08 \\
+    v_{\pi _{left}}(s) &= \sum_{i=0}^{\infty} 0.5^{2i}\\
+        &= \sum_{i=0}^{\infty} 0.25^{i} \\
+        &= \frac{1}{1 - 0.25} = 1.333 \\
+\end{align}
+so $\pi _{left}$ is better.
+
+
+\section*{Exercise 3.23}
+TODO
+
+\section*{Exercise 3.24}
+We first need to find the value of $\gamma $ used. Notice that since 
+\begin{align}
+G_t = R_{t + 1} + \gamma G_{t + 1}\\
+\implies \gamma  = \frac{G_t - R_{t + 1}}{G_{t + 1}}
+\end{align}
+we can use two given values to find $\gamma $. We use the state $A$. Then $G_t = 24.4$, $R_{t + 1} = 10$, and $G_{t + 1} = 16$. Thus
+\begin{align}
+\gamma  = \frac{24.4 - 10}{16} = 0.9
+\end{align}
+The following python program will find $v_{*}$ to any given accuracy:
+\begin{lstlisting}[language=python]
+import numpy as np
+
+UP=1
+DOWN=2
+LEFT=3
+RIGHT=4
+
+GAMMA = 0.9
+
+pistar = [
+    [RIGHT, DOWN, LEFT, UP, LEFT], 
+    [UP, UP, UP, LEFT, LEFT], 
+    [UP for _ in range(5)],
+    [UP for _ in range(5)],
+    [UP for _ in range(5)]
+]
+
+def action(x, y, dir):
+    if x == 0 and y == 1:
+        return 4, 1, 10
+
+    if x == 0 and y == 3:
+        return 2, 3, 5
+
+    if dir == UP:
+        x -= 1
+    elif dir == DOWN:
+        x += 1
+    elif dir == LEFT:
+        y -= 1
+    elif dir == RIGHT:
+        y += 1
+    return x, y, 0
+
+def get_valuestar(x, y):
+    cur_gamma = 1
+    cur_value = 0
+    for i in range(100):
+        x, y, r = action(x, y, pistar[x][y])
+        cur_value += cur_gamma * r
+        cur_gamma *= GAMMA
+    return cur_value
+        
+values = np.zeros((5, 5))
+
+for i in range(5):
+    for j in range(5):
+        values[i][j] = get_valuestar(i, j)
+
+print(values)
+
+\end{lstlisting}
+And we obtained
+\begin{table}[htpb]
+    \centering
+    \caption{Gridworld values}
+    \label{tab:label}
+
+\begin{tabular}{|rrrrr|}
+\hline
+21.977 & 24.419 & 21.977 & 19.419 & 17.477 \\
+19.780 & 21.977 & 19.780 & 17.802 & 16.022 \\
+17.802 & 19.780 & 17.802 & 16.022 & 14.419 \\
+16.022 & 17.802 & 16.022 & 14.419 & 12.977 \\
+14.419 & 16.022 & 14.419 & 12.977 & 11.680 \\
+\hline
+        
+    \end{tabular}
+\end{table}
+
+
+\section*{Exercise 3.25}
+We of course have
+ \begin{align}
+v_{*}(s) = \max_{a \in \mathcal{A}(s)}q_{*}(s, a) \label{eq:vstarq}
+\end{align}
+
+\section*{Exercise 3.26}
+Since we have \eqref{eq:vstarq}, we have
+\begin{align}
+q_{*}(s, a) = \sum_{s', r} p(s', r  \mid s, a) \left[ r + \gamma v_{*}(s') \right] 
+\end{align}
+
+\section*{Exercise 3.27}
+This is simply
+\begin{align}
+\pi _{*}(s) = \operatorname{argmax}_{a \in \mathcal{A}(s)} q_{*}(s, a)
+\end{align}
+
+\section*{Exercise 3.28}
+This is 
+\begin{align}
+\pi _{*}(s) = \operatorname{argmax}_{a \in \mathcal{A}(s)A} \sum_{s', r} p(s', r  \mid s, a) \left[ r + \gamma v_{*}(s') \right]
+\end{align}
+
+\section*{Exercise 3.29}
+In terms of $p(s' \mid s, a)$ and $r(s, a)$, we have
+\begin{align}
+    &v_{\pi }(s) = \sum_{a} \pi (a \mid s) \left( r(s, a) + \gamma  \sum_{s'}  
+    p(s' \mid s, a) v_{\pi }(s')
+\right) \\
+    &v_{* }(s) = \max_{a} \left( r(s, a) + \gamma  \sum_{s'}  
+    p(s' \mid s, a) v_{*}(s')
+\right) \\
+    &q_{\pi }(s, a) = r(s, a) + \gamma \left( \sum_{s'}p(s' \mid s, a) \sum_{a'}\pi (a' \mid s') q_{*}(s', a')   \right) \\
+   &q_{*}(s, a) = r(s, a) + \gamma \left( \max_{a'} \sum_{s'}p(s' \mid s, a')q_{*}(s', a')  \right) 
+\end{align}
+
+
+
+
+
+
 
 
 
