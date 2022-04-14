@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.8.17)  14 APR 2022 01:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.8.17)  14 APR 2022 19:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**notes.tex
-(./notes.tex
+**written.tex
+(./written.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14> (/usr/share/texlive/texmf-dist/tex/latex/amscls/amsart.cls
 Document Class: amsart 2017/10/31 v2.20.4
@@ -681,8 +681,8 @@ File: lstlang1.sty 2019/09/10 1.8c listings language file
 )
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
- (build/notes.aux)
-\openout1 = `notes.aux'.
+ (build/written.aux)
+\openout1 = `written.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 97.
 LaTeX Font Info:    ... okay on input line 97.
@@ -783,9 +783,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 97.
 LaTeX Info: Redefining \pageref on input line 97.
 LaTeX Info: Redefining \nameref on input line 97.
- (build/notes.out) (build/notes.out)
+ (build/written.out) (build/written.out)
 \@outlinefile=\write4
-\openout4 = `notes.out'.
+\openout4 = `written.out'.
 
 \c@lstlisting=\count338
 LaTeX Info: Redefining \celsius on input line 97.
@@ -802,35 +802,34 @@ Package gensymb Warning: Not defining \micro.
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 103.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \vbox (badness 3417) has occurred while \output is active []
+)
+Overfull \hbox (37.63478pt too wide) detected at line 127
+[]
+ []
 
- [2]
-Underfull \vbox (badness 1521) has occurred while \output is active []
-
- [3] [4] [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
- (build/notes.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
-Package rerunfilecheck Info: File `notes.out' has not changed.
-(rerunfilecheck)             Checksum: 4C9C771E27196AB3053AB2C3584167E8;426.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 310.
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 219.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 219.
+ (build/written.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 219.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 219.
+Package rerunfilecheck Info: File `written.out' has not changed.
+(rerunfilecheck)             Checksum: C7723BDB895335841720E438C5492A95;288.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 219.
  ) 
 Here is how much of TeX's memory you used:
- 23391 strings out of 483183
- 425330 string characters out of 5966292
- 909122 words of memory out of 5000000
- 37713 multiletter control sequences out of 15000+600000
+ 23338 strings out of 483183
+ 424691 string characters out of 5966292
+ 905129 words of memory out of 5000000
+ 37710 multiletter control sequences out of 15000+600000
  546562 words of font info for 66 fonts, out of 8000000 for 9000
  175 hyphenation exceptions out of 8191
- 60i,18n,60p,936b,387s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on build/notes.pdf (5 pages, 143025 bytes).
+ 60i,16n,60p,938b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on build/written.pdf (2 pages, 120507 bytes).
 PDF statistics:
- 356 PDF objects out of 1000 (max. 8388607)
- 190 compressed objects within 2 object streams
- 77 named destinations out of 1000 (max. 500000)
- 69 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 253 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
+ 27 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 

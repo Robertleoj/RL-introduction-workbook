@@ -2,3 +2,6 @@
 \BOOKMARK [1][-]{section*.2}{Returns and episodes}{}% 2
 \BOOKMARK [1][-]{section*.3}{Policies and value function}{}% 3
 \BOOKMARK [1][-]{section*.4}{Optimal policies and optimal value function}{}% 4
+\BOOKMARK [1][-]{section*.5}{Policy evaluation}{}% 5
+\BOOKMARK [1][-]{section*.6}{Policy Improvement}{}% 6
+\BOOKMARK [1][-]{section*.7}{Policy Iteration}{}% 7

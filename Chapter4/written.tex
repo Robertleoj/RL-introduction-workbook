@@ -1,0 +1,239 @@
+\documentclass[a4paper,11pt,reqno]{amsart}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{esvect}
+\usepackage{scalerel}
+\usepackage{csquotes}
+\usepackage{gensymb}
+\usepackage{mdframed}
+\geometry{left=2.5cm, right=2.5cm, bottom=3cm}
+% \pagenumbering{roman}
+
+\parskip 1ex
+\parindent 0 pt
+
+\newcounter{temp}
+\newcounter{prob_counter}
+\newcounter{sprob_counter}
+
+\newenvironment{problem}
+{\begin{list}{{\bf \arabic{prob_counter}}}{
+      \usecounter{prob_counter}
+      \addtolength{\labelsep}{.6ex}
+      \addtolength{\itemsep}{4.3ex}
+      \setlength{\leftmargin}{1.4em}}
+      \setcounter{prob_counter}{\value{temp}}
+}
+{\setcounter{temp}{\value{prob_counter}}
+  \end{list}
+}
+
+\newenvironment{subprob}
+{
+  \begin{list}{{\bf \alph{sprob_counter}}}{
+      \usecounter{sprob_counter}
+      \addtolength{\labelsep}{.6ex}
+      \addtolength{\itemsep}{.5ex}
+      \setlength{\leftmargin}{1.7em}}
+}
+{\end{list}}
+
+\newenvironment{solution}{\textbf{Solution.}}{\qed}
+
+\newcommand{\rubrik}[1]{\bigskip \begin{center}{\bf #1}\end{center} \medskip}
+
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{corrolary}{Corrolary}
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{remark}{Remark}
+   
+
+\usepackage{xcolor}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\lstset{language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{keywords},
+    commentstyle=\color{comments},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    identifierstyle=\color{green},
+    %procnamekeys={def,class}
+    numbers=left,
+    xleftmargin=2em,
+    frame=single,
+    framexleftmargin=2.5em
+}
+
+
+\lstset{literate=%
+  *{0}{{{\color{green}0}}}1
+    {1}{{{\color{green}1}}}1
+    {2}{{{\color{green}2}}}1
+    {3}{{{\color{green}3}}}1
+    {4}{{{\color{green}4}}}1
+    {5}{{{\color{green}5}}}1
+    {6}{{{\color{green}6}}}1
+    {7}{{{\color{green}7}}}1
+    {8}{{{\color{green}8}}}1
+    {9}{{{\color{green}9}}}1
+}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\begin{document}
+
+\pagestyle{empty}
+\thispagestyle{empty}
+
+{\small{\sc\noindent
+        Róbert Leó Jónsson ({\tt robertt20@ru.is}))
+}}
+
+\rubrik{Written Exercises: Chapter 4}
+
+\section*{Exercise 4.1}
+We are not using any discount, so we have
+\begin{align}
+    q_{\pi }(11, down) &= r + v_{\pi }(T)\\
+    &= -1 + 0 = -1 \\
+    q_{\pi }(7, down) &= r+ v_{\pi }(11) \\
+    &= -1 + -14 = -15  
+\end{align}
+
+\section*{Exercise 4.2}
+Adding the new state, we get
+\begin{align}
+    v_{\pi }(15) &= \sum_{a} \pi (a \mid 15)(-1 + v_{\pi }(s')\\
+    &= 0.25 \cdot ( - 1  + v_{\pi }(13)) + 0.25 \cdot ( - 1 + v_{\pi }(12)) + 0.25 \cdot (-1 + v_{\pi }(14)) + 0.25 \cdot ( - 1 v_{\pi }(15)) \\
+    &= 0.25(-4  + v_{\pi }(13) + v_{\pi }(12) + v_{\pi }(14) + v_{\pi }(15) \\
+    &= -1 + 0.25(-20 -22 -14 + v_{\pi }(15))  \\
+    &= -1 - 14 + 0.25v_{\pi }(15) \\
+    \implies 0.75 v_{\pi }(15) &= -15\\
+    \implies v_{\pi }(15) &= \frac{-15}{0.75} = -20
+\end{align}
+
+Now, if we change the dynamics such that moving down in state $13$ will move us to $15$, the value function will not change. This is because $v_{\pi }(13) = v_{\pi }(15)$, so $q_{\pi }(13, down) = -20$ hold regardless of whether the move will take us to $15$ or not. 
+
+\section*{Exercise 4.3}
+The equations analogous to (4.3) and (4.4) are given in Exercise 3.17. 
+
+The update equation for $q_{\pi }(s, a)$ is given by
+\begin{align}
+q_{k + 1}(s, a) &= \mathbb{E}_{\pi }\left[ R_{t+1} + \gamma G_{t + 1} \mid S_{t} = s, A_{t} = a \right]  \\
+&= \sum_{s', r} p(s', r \mid s, a) \left( r + \gamma \sum_{a'} \pi (a' \mid s)q_{k} (a', s) \right) 
+\end{align}
+
+\section*{Exercise 4.4}
+We need to loop through the computed value function to check whether they are equal; two optimal policies will have the same value function.
+
+\section*{Exercise 4.5}
+The process is very similar - we use the Bellman equation for $q_{\pi }$ to evaluate the policy. 
+
+To improve the policy, we again create the greedy policy $\pi '$ with respect to $q_{\pi }$. That is,
+
+\begin{enumerate}
+    \item Initialization
+
+    $q(s, a) \in  \mathbb{R}$ and $\pi (s) \in \mathcal{A}(s)$ arbitrarily for all $s \in  \mathcal{S}$. 
+
+    \item Policy evaluation
+
+    Loop:
+    \begin{itemize}
+        \item $\Delta  \leftarrow 0$
+        \item Loop for each $s \in \mathcal{S}$ and each $a \in \mathcal{A}(s)$ :
+        \begin{itemize}
+            \item $ q \leftarrow q(s, a)$
+            \item $q(s, a) \leftarrow  \sum_{s', r}p(s', r \mid s, a)\left( r + \gamma q(s', \pi(s'))  \right)  $
+            \item $\Delta \leftarrow \max(\Delta, |q - q(s, a)| $
+        \end{itemize}
+        \item until $\Delta < \theta $
+    \end{itemize}
+
+    \item Policy Improvement
+    \begin{itemize}
+        \item \emph{policy-stable} $\leftarrow true$
+        \item For each $s \in  \mathcal{S}$:
+        \begin{itemize}
+            \item \emph{old-action} $\leftarrow \pi (s)$
+            \item $\pi (s) \leftarrow \operatorname{argmax}_{a}\sum_{s', r} q(s, a)$
+            \item If \emph{old-action} $\neq \pi (s)$ then \emph{policy-stable} $\leftarrow false$. 
+        \end{itemize}
+        \item If \emph{policy-stable}, then stop and return $q \approx q_{*}$ and $\pi \approx \pi _{*}$, else go to 2.
+    \end{itemize}
+\end{enumerate}
+
+
+\section*{Exercise 4.6}
+We assume that there would be a $1 - \epsilon + \frac{\epsilon}{|\mathcal{A}(s)|}$ probability on the optimal action, and the remaining $\epsilon - \frac{\epsilon}{|\mathcal{A}(s)|}$ probability would be evenly spread over the remaining actions. 
+
+Now, assume that we store this action in $A(s)$. Then,
+ \begin{align}
+\pi_A (a \mid s) = 
+\begin{cases}
+    1 - \epsilon+\frac{\epsilon}{|\mathcal{A}(s)|} & \text{ if } a = A(s)\\
+    \epsilon - \frac{\epsilon}{|\mathcal{A}(s)|} & \text{ otherwise } 
+\end{cases}
+\end{align}
+Then, step 3 would be
+\begin{itemize}
+    \item \emph{policy-stable} $\leftarrow true$
+    \item For each $s \in \mathcal{S}$ :
+    \begin{itemize}
+        \item \emph{old-action} $\leftarrow A(s)$
+        \item $A(s) \leftarrow  \operatorname{argmax}_{a'}\sum_{a}\pi _a'(a \mid s) \sum_{s', r} p(s', r \mid s, a)\left[ r + \gamma V(s') \right]  $
+        \item $\pi(s) \leftarrow \pi_A(s)$
+        \item If \emph{old-action} $\neq A(s)$ then \emph{policy-stable} $\leftarrow false$
+    \end{itemize}
+    \item $\cdots $
+\end{itemize}
+
+For step two, the value update would simply be
+\begin{align}
+V(s) \leftarrow \sum_{a}\pi_A(s)(a \mid s) \sum_{s', r} p(s', r \mid s, a') \left[ r + \gamma V(s') \right]  
+\end{align}
+where the rest of the step remains the same.
+
+Step one would consist of letting $V(s) \in  \mathbb{R}$ arbitrarily, and setting $A(s)$ for $s \in  \mathcal{S}$ arbitrarily, with $\pi (a \mid s) = \pi _{A(s)}(a \mid s)$ as defined above.
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

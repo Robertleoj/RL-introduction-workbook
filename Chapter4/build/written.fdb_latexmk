@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1649900703 "notes.tex" "build/notes.pdf" "notes" 1649900704
+["pdflatex"] 1649963171 "written.tex" "build/written.pdf" "written" 1649963171
   "/etc/texmf/web2c/texmf.cnf" 1629162636 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk" 1649434209 28952 8fe6654355c283b59680a2b3c97aced4 ""
   "/home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk" 1649434210 25076 a1022144d7ac9d325a3141825bb822a5 ""
@@ -49,7 +49,6 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1248133631 35469 70d41d2b9ea31d5d813066df7c99281c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1248133631 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb" 1248133631 32587 1788b0c1c5b39540c96f5e42ccd6dae8 ""
@@ -206,11 +205,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1581979058 38841 ce3692aa899bb693b90b87eaa5d4d84e ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1629163055 4429294 7e37af41c846069ce41e50f05b527231 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1629163059 4791332 7e81959fbc7a6a54ec2d7675877cb9d1 ""
-  "build/notes.aux" 1649900704 1884 bb76175b03c43e7acbd6ffeceddad70f "pdflatex"
-  "build/notes.out" 1649900704 426 4c9c771e27196ab3053ab2c3584167e8 "pdflatex"
-  "notes.tex" 1649900702 12211 cbb03b7e40f4219967ba911e4af48c70 ""
+  "build/written.aux" 1649963171 1557 02d81a82813893b9f6dda9b6508f7c00 "pdflatex"
+  "build/written.out" 1649963171 288 c7723bdb895335841720e438c5492a95 "pdflatex"
+  "written.tex" 1649963170 7082 d16227389e4ce9cc3aa7a080c2cfa8e2 ""
   (generated)
-  "build/notes.aux"
-  "build/notes.pdf"
-  "build/notes.log"
-  "build/notes.out"
+  "build/written.pdf"
+  "build/written.aux"
+  "build/written.log"
+  "build/written.out"
