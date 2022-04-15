@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1649900703 "notes.tex" "build/notes.pdf" "notes" 1649900704
+["pdflatex"] 1650029470 "notes.tex" "build/notes.pdf" "notes" 1650029470
   "/etc/texmf/web2c/texmf.cnf" 1629162636 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1095.600pk" 1649434209 28952 8fe6654355c283b59680a2b3c97aced4 ""
   "/home/go-deeper/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk" 1649434210 25076 a1022144d7ac9d325a3141825bb822a5 ""
@@ -206,11 +206,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1581979058 38841 ce3692aa899bb693b90b87eaa5d4d84e ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1629163055 4429294 7e37af41c846069ce41e50f05b527231 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1629163059 4791332 7e81959fbc7a6a54ec2d7675877cb9d1 ""
-  "build/notes.aux" 1649900704 1884 bb76175b03c43e7acbd6ffeceddad70f "pdflatex"
-  "build/notes.out" 1649900704 426 4c9c771e27196ab3053ab2c3584167e8 "pdflatex"
-  "notes.tex" 1649900702 12211 cbb03b7e40f4219967ba911e4af48c70 ""
+  "build/notes.aux" 1650029470 2146 b022f8f6b8837b2f3d6f22aa723753b1 "pdflatex"
+  "build/notes.out" 1650029470 558 9ccd403611c8f919b1a5f69fd455376e "pdflatex"
+  "notes.tex" 1650029468 14578 ebf6b1fb48fa6c76091efe44623a4c90 ""
   (generated)
-  "build/notes.aux"
-  "build/notes.pdf"
   "build/notes.log"
+  "build/notes.pdf"
+  "build/notes.aux"
   "build/notes.out"

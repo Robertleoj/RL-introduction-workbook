@@ -210,6 +210,32 @@ where the rest of the step remains the same.
 
 Step one would consist of letting $V(s) \in  \mathbb{R}$ arbitrarily, and setting $A(s)$ for $s \in  \mathcal{S}$ arbitrarily, with $\pi (a \mid s) = \pi _{A(s)}(a \mid s)$ as defined above.
 
+\section*{Exercise 4.7}
+See the code directory.
+
+\section*{Exercise 4.8}
+This is a tough one. Making a lot of small bets seems to be less likely to win you the game as making a few large ones, as the game is against you with $p_h = 0.4$. So to win the game, it might be a better strategy to make large bets. When you have $50$ in capital, it is wise to bet it all, as it is more likely that you will reach a 100 with that strategy than by making many small bets. 
+
+However, if you have $51$, it does not pay to bet it all, as you can make a bet of $1$, and you might win that bet. If you lose the bet, you might still win in the all-in strategy. 
+
+The pyramids indicate that we are willing to bet exactly the amount that, if we lose, will bounce us back to 50. 
+
+The general pattern seems to be that we want to recursively split the capital line into halves, and make jumping points. 
+
+The guess is that any optimal policy will have a jumping point in the middle, and then each split will either have a pyramid, or a recursion, with a jumping point in the middle. 
+
+\section*{Exercise 4.9}
+See code.
+
+\section*{Exercise 4.10}
+It is
+\begin{align}
+q_{k+1}(s, a) &= \mathbb{E}\left[ 
+    R_{t+1} + 
+    \gamma  \max_{a'}  q_{k}(S_{t+1}, a)  \mid S_t = s, A_t = a
+\right]  \\
+&= \sum_{s', r} p(s', r \mid s, a) \left[ r + \gamma \max_{a'}q_{k}(s', a') \right]
+\end{align}
 
 
 

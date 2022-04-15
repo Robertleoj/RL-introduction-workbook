@@ -1,0 +1,200 @@
+\documentclass[a4paper,11pt,reqno]{amsart}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{svg}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{esvect}
+\usepackage{scalerel}
+\usepackage{csquotes}
+\usepackage{gensymb}
+\usepackage{mdframed}
+\geometry{left=2.5cm, right=2.5cm, bottom=3cm}
+% \pagenumbering{roman}
+
+\parskip 1ex
+\parindent 0 pt
+
+\newcounter{temp}
+\newcounter{prob_counter}
+\newcounter{sprob_counter}
+
+\newenvironment{problem}
+{\begin{list}{{\bf \arabic{prob_counter}}}{
+      \usecounter{prob_counter}
+      \addtolength{\labelsep}{.6ex}
+      \addtolength{\itemsep}{4.3ex}
+      \setlength{\leftmargin}{1.4em}}
+      \setcounter{prob_counter}{\value{temp}}
+}
+{\setcounter{temp}{\value{prob_counter}}
+  \end{list}
+}
+
+\newenvironment{subprob}
+{
+  \begin{list}{{\bf \alph{sprob_counter}}}{
+      \usecounter{sprob_counter}
+      \addtolength{\labelsep}{.6ex}
+      \addtolength{\itemsep}{.5ex}
+      \setlength{\leftmargin}{1.7em}}
+}
+{\end{list}}
+
+\newenvironment{solution}{\textbf{Solution.}}{\qed}
+
+\newcommand{\rubrik}[1]{\bigskip \begin{center}{\bf #1}\end{center} \medskip}
+
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{corrolary}{Corrolary}
+\newmdtheoremenv{definition}{Definition}
+\newmdtheoremenv{remark}{Remark}
+   
+
+\usepackage{xcolor}
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\lstset{language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{keywords},
+    commentstyle=\color{comments},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    identifierstyle=\color{green},
+    %procnamekeys={def,class}
+    numbers=left,
+    xleftmargin=2em,
+    frame=single,
+    framexleftmargin=2.5em
+}
+
+
+\lstset{literate=%
+  *{0}{{{\color{green}0}}}1
+    {1}{{{\color{green}1}}}1
+    {2}{{{\color{green}2}}}1
+    {3}{{{\color{green}3}}}1
+    {4}{{{\color{green}4}}}1
+    {5}{{{\color{green}5}}}1
+    {6}{{{\color{green}6}}}1
+    {7}{{{\color{green}7}}}1
+    {8}{{{\color{green}8}}}1
+    {9}{{{\color{green}9}}}1
+}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\begin{document}
+
+\pagestyle{empty}
+\thispagestyle{empty}
+
+{\small{\sc\noindent
+        Róbert Leó Jónsson ({\tt robertt20@ru.is}))
+}}
+
+\rubrik{Chapter 5}
+
+\section*{Exercise 5.1}
+The estimated value function jumps up for the last two rows because there, we have cards that sum up to 20 or 21, so we are very likely to win. 
+
+It drops off in the whole last row on the left because we are less likely to win if the dealer has an ace. 
+
+The frontmsot values are higher in the upper diagrams because aces are useful in blackjack. 
+
+\section*{Exercise 5.2}
+It seems like the same state cannot be visited twice in the same game in blackjack - the card's sums will always change after a move. 
+
+
+\section*{Exercise 5.3}
+It is the same as for the value function. It is a path graph, where the nodes alternate between states and actions. 
+
+\section*{Exercise 5.4}
+We would keep an integer of how many times we have visited the state-action pair $(s, a)$, for each state, and each action. Then, instead of appending $R$ to the list and repeatedly taking the mean, we would instead use the iterative mean update equation we encountered before. 
+
+\section*{Exercise 5.5}
+The rewards are $(R_1, \ldots, R_{10}) = (1, \ldots, 1)$, so the return $G_t$ is
+\begin{align}
+    G_t &= \sum_{i=t+1}^{10} R_i = \sum_{i=t+1}^{10} 1 \\
+        &= 10 - t 
+\end{align}
+Thus, for the first-visit case, our estimate is
+\begin{align}
+v(S) = G_0 = 10 - 0 = 10
+\end{align}
+However, for the every-step case, the estimate is
+\begin{align}
+    v(S) &= \frac{1}{10}\sum_{t=0}^{9} G_t = \frac{1}{10}\sum_{t=0}^{9} 10 - t \\
+    &= \frac{1}{10}\sum_{t=0}^{9}10 - \frac{1}{10}\sum_{t=0}^{9} t  \\
+    &= 10 - \frac{1}{10}\frac{9(9 - 1)}{2} \\
+    &= 10 - 3.6 = 6.4 \\
+\end{align}
+
+\section*{Exercise 5.6}
+Given a starting state $S_t$ and an action $A_t$, the probability of the subsequent state-action trajectory $S_{t + 1}, A_{t+1}, \ldots, S_T$ occuring under any policy $\pi $ is
+\begin{align}
+p(S_{t+1} \mid S_{t}, A_{t})\pi (A_{t+1} \mid S_{t+1}) \cdots p(S_{T} \mid S_{T-1}, A_{T_1})\\
+=\frac{1}{\pi (A_t \mid S_t)} \prod_{k=t}^{T - 1}\pi (A_k \mid S_k)  p(S_{k + 1} \mid S_k, A_k)
+\end{align}
+Thus, instead of $\rho _{t: T - 1}$, we usee
+\begin{align}
+    \phi_{t:T -1} &= \frac{b(A_t \mid S_t)}{\pi (A_t \mid S_t)}\rho _{t:T-1}\\
+    &= \frac{b(A_k \mid S_k)}{\pi (A_k \mid S_k)} \prod_{k=t}^{T-1}\frac{\pi (A_k \mid S_k)}{b(A_k \mid S_k)}   \\
+    &= \prod_{k=t+1}^{T-1} \frac{\pi (A_k \mid S_k)}{b(A_k \mid S_k)}\\
+    &= \rho _{t+ 1: T - 1} 
+\end{align}
+Then the right transformation is
+\begin{align}
+\mathbb{E}\left[ \rho _{t + 1: T - 1}G_t \mid S_t=s, A_t = a \right]  = q_{\pi }(s, a)
+\end{align}
+And thus equation (5.6) becomes
+\begin{align}
+    Q(s,a) = \frac{
+        \sum_{t \in \mathcal{T}(s)} \rho _{t + 1 : T(t) - 1}G_t
+    }{
+        \sum_{t \in \mathcal{T}(s)} \rho _{t+1:T(t) - 1}
+    }
+\end{align}
+
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
